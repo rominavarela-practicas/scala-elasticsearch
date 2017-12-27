@@ -4,8 +4,8 @@ import bootstrap.liftweb.BootDev
 
 import elasticmedium.core.dao.es.impl.EsRootServices
 import elasticmedium.core.dao.es.impl.EsMappingServices
+import elasticmedium.core.dao.es.impl.EsIndexServices
 import elasticmedium.core.dao.es.impl.EsDocumentServices
-import elasticmedium.core.dao.es.impl.EsTypeServices
 
 import scala.collection.immutable.Map
 import scala.collection.JavaConversions._
@@ -17,8 +17,8 @@ import net.liftweb.http.{JsonResponse, OkResponse, CreatedResponse, BadRequestRe
 object QueryController {
   protected lazy val esRootServices = new EsRootServices()
   protected lazy val esMappingServices = new EsMappingServices()
+  protected lazy val esIndexServices = new EsIndexServices()
   protected lazy val esDocumentServices = new EsDocumentServices()
-  protected lazy val esTypeServices = new EsTypeServices()
   
   def getRoot() = {
     try {
@@ -80,10 +80,10 @@ object QueryController {
     }
   }
   
-  def deleteType(indexName:String, typeName:String) = {
+  def deleteType(indexName:String) = {
     try {
       JsonResponse(
-          ("response" -> esTypeServices.DELETE(indexName, typeName))
+          ("response" -> esIndexServices.DELETE(indexName))
       )
     } catch {
       case exc:Exception => {

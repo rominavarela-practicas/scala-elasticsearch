@@ -24,17 +24,17 @@ import net.liftweb.json.JsonDSL._
  * @see https://github.com/aws/aws-sdk-java/issues/861
  * @see https://aws.amazon.com/es/blogs/security/how-to-control-access-to-your-amazon-elasticsearch-service-domain/
  */
-class EsTypeServices extends EsService {
+class EsIndexServices extends EsService {
   def env = Env.getInstance()
   
   /**
    * DELETE Verb
    * @return 200 Deleted
    */
-  def DELETE(indexName:String, typeName:String): Int = {
+  def DELETE(indexName:String): Int = {
     val req = new DefaultRequest[JObject]("es")
         req.setHttpMethod(HttpMethodName.DELETE)
-        req.setEndpoint(new URI("http://" + endpoint + "/" + indexName + "/" + typeName));
+        req.setEndpoint(new URI("http://" + endpoint + "/" + indexName));
     return this.exec(req)
           .getAwsResponse()
           .\("status-code")

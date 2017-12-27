@@ -78,10 +78,10 @@
         }
       }
     },
-    "/query/{index}/{type}": {
+    "/query/{index}": {
       "delete": {
-        "tags": [ "Types" ],
-        "summary": "Delete a type",
+        "tags": [ "Index" ],
+        "summary": "Delete an index",
         "produces": [ "application/json" ],
         "parameters": [
           {
@@ -89,17 +89,11 @@
             "in": "path",
             "type": "string",
             "required": true
-          },
-          {
-            "name": "type",
-            "in": "path",
-            "type": "string",
-            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "Delete a type"
+            "description": "Delete an index"
           }
         }
       }
