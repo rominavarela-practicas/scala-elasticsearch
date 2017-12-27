@@ -141,11 +141,6 @@ object QueryController {
               )
           )
       ) ~
-      (
-          "sort" -> (
-            "name" -> "asc" 
-          )
-      ) ~
       ("from" -> from) ~
       ("size" -> size)
     );
