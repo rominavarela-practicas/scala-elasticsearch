@@ -8,7 +8,6 @@ To avoid namespace problems, this project is packaged as "Elastic Medium"
  * Maven 3
  * AWS
    * AmazonES 5.1
-   * AmazonS3 API Version 2006-03-01
 
 #### Getting Started
 
