@@ -159,30 +159,4 @@ object QueryController {
       }
     }
   }
-  
-  def searchDocumentByMappedField(indexName:String, typeName:String, fieldName:String, from:Int, size:Int) = {
-    val query = (
-      (
-          "query" -> (
-              "exists" -> (
-                  "field" -> fieldName
-              )
-          )
-      )
-    );
-    
-    try {
-      JsonResponse(
-          ("query" -> query) ~
-          ("response" -> esDocumentServices.SEARCH(indexName, typeName, query))
-      )
-    } catch {
-      case exc:Exception => {
-        if(BootDev.devMode) {
-          exc.printStackTrace();
-        }
-        new BadRequestResponse(exc.getMessage)
-      }
-    }
-  }
 }

@@ -160,52 +160,6 @@
         }
       }
     },
-    "/query/{index}/{type}/_search/{field}": {
-      "get": {
-        "tags": [ "Types" ],
-        "summary": "Search into a collection of typed documents by a mapped field",
-        "produces": [ "application/json" ],
-        "parameters": [
-          {
-            "name": "index",
-            "in": "path",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "type",
-            "in": "path",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "field",
-            "in": "path",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "from",
-            "in": "query",
-            "type": "integer",
-            "required": false,
-            "default": 0
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "type": "integer",
-            "required": false,
-            "default": 0
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Search into a collection of typed documents"
-          }
-        }
-      }
-    },
     "/query/{index}/{type}/_search": {
       "post": {
         "tags": [ "Types" ],
