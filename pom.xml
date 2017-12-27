@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>elasticmedium</groupId>
+  <artifactId>elasticmedium.api</artifactId>
+  <version>3.2.0</version>
+  <name>${project.artifactId}</name>
+
+  <properties>
+    <encoding>UTF-8</encoding>
+    <scala.version>2.11.5</scala.version>
+    <scala.compat.version>2.11</scala.compat.version>
+    <liftweb.version>3.2.0-M1</liftweb.version>
+    <jetty.version>9.4.2.v20170220</jetty.version>
+    <aws.version>1.11.136</aws.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>${scala.version}</version>
+    </dependency>
+
+	<!-- Liftweb -->
+	<dependency>
+	    <groupId>net.liftweb</groupId>
+	    <artifactId>lift-webkit_${scala.compat.version}</artifactId>
+	    <version>${liftweb.version}</version>
+	    <scope>compile</scope>
+	</dependency>
+	<dependency>
+	    <groupId>net.liftweb</groupId>
+	    <artifactId>lift-mapper_${scala.compat.version}</artifactId>
+	    <version>${liftweb.version}</version>
+	    <scope>compile</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.eclipse.jetty</groupId>
+	    <artifactId>jetty-webapp</artifactId>
+	    <version>${jetty.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-simple</artifactId>
+	    <version>1.7.25</version>
+	</dependency>
+
+	<!-- AWS -->
+	<!-- http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/index.html -->
+	<dependency>
+	    <groupId>com.amazonaws</groupId>
+	    <artifactId>aws-java-sdk-elasticsearch</artifactId>
+	    <version>${aws.version}</version>
+	</dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/scala</sourceDirectory>
+    <testSourceDirectory>src/test/scala</testSourceDirectory>
+    <testOutputDirectory>src/main/webapp/test-classes</testOutputDirectory>
+    <plugins>
+      <!-- SCALA COMPILATION (mvn install at phase: compile)-->
+      <plugin>
+        <!-- see http://davidb.github.com/scala-maven-plugin -->
+        <groupId>net.alchim31.maven</groupId>
+        <artifactId>scala-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <launchers>
+          	<launcher>
+          		<mainClass>bootstrap.liftweb.BootDev</mainClass>
+          	</launcher>
+          	<launcher>
+          		<mainClass>jeeves.runner.SimulationWorker</mainClass>
+          	</launcher>
+          </launchers>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <args>
+                <arg>-dependencyfile</arg>
+                <arg>${project.build.directory}/.scala_dependencies</arg>
+              </args>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- SERVER WAR COMPILATION phase: package -->
+      <plugin>
+      	<version>3.1.0</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <executions>
+        	<execution>
+        		<phase>package</phase>
+        		<goals>
+        			<goal>war</goal>
+        		</goals>
+        	</execution>
+        </executions>
+        <configuration>
+			<!-- <warName>jeeves</warName> --> <!-- for http://domain/jeeves/api - update the basePath in swagger.json if activated -->
+			<warName>ROOT</warName> <!-- for http://domain/api -->
+			<warSourceExcludes>testcases/**</warSourceExcludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
