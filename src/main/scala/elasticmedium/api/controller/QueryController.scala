@@ -176,9 +176,6 @@ object QueryController {
       )
     );
     
-    System.out.println("\n\n\nquery\n\n\n")
-    System.out.println("\n\n\n"+net.liftweb.json.prettyRender(query)+"\n\n\n")
-    
     try {
       JsonResponse(
           ("query" -> query) ~
