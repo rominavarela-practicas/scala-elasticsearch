@@ -20,6 +20,44 @@
         }
       }
     },
+    "/query/{index}": {
+    	 "put": {
+        "tags": [ "Index" ],
+        "summary": "Create an index",
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      },
+      "delete": {
+        "tags": [ "Index" ],
+        "summary": "Delete an index",
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          }
+        }
+      }
+    },
     "/query/_mapping": {
       "get": {
         "tags": [ "Mapping" ],
@@ -74,26 +112,6 @@
         "responses": {
           "200": {
             "description": "The mapping of a type"
-          }
-        }
-      }
-    },
-    "/query/{index}": {
-      "delete": {
-        "tags": [ "Index" ],
-        "summary": "Delete an index",
-        "produces": [ "application/json" ],
-        "parameters": [
-          {
-            "name": "index",
-            "in": "path",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Delete an index"
           }
         }
       }

@@ -35,6 +35,36 @@ object QueryController {
     }
   }
   
+  def createIndex(indexName:String) = {
+    try {
+      JsonResponse(
+          ("response" -> esIndexServices.CREATE(indexName))
+      )
+    } catch {
+      case exc:Exception => {
+        if(BootDev.devMode) {
+          exc.printStackTrace();
+        }
+        new BadRequestResponse(exc.getMessage)
+      }
+    }
+  }
+  
+  def deleteIndex(indexName:String) = {
+    try {
+      JsonResponse(
+          ("response" -> esIndexServices.DELETE(indexName))
+      )
+    } catch {
+      case exc:Exception => {
+        if(BootDev.devMode) {
+          exc.printStackTrace();
+        }
+        new BadRequestResponse(exc.getMessage)
+      }
+    }
+  }
+  
   def getMapping() = {
     try {
       JsonResponse(
@@ -69,21 +99,6 @@ object QueryController {
     try {
       JsonResponse(
           ("response" -> esMappingServices.GET(indexName, typeName))
-      )
-    } catch {
-      case exc:Exception => {
-        if(BootDev.devMode) {
-          exc.printStackTrace();
-        }
-        new BadRequestResponse(exc.getMessage)
-      }
-    }
-  }
-  
-  def deleteType(indexName:String) = {
-    try {
-      JsonResponse(
-          ("response" -> esIndexServices.DELETE(indexName))
       )
     } catch {
       case exc:Exception => {

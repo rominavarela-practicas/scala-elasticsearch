@@ -28,6 +28,20 @@ class EsIndexServices extends EsService {
   def env = Env.getInstance()
   
   /**
+   * CREATE Verb
+   * @return 201 Created
+   */
+  def CREATE(indexName:String): Int = {
+    val req = new DefaultRequest[JObject]("es")
+        req.setHttpMethod(HttpMethodName.PUT)
+        req.setEndpoint(new URI("http://" + endpoint + "/" + indexName));
+    return this.exec(req)
+          .getAwsResponse()
+          .\("status-code")
+          .asInstanceOf[JInt].values.toInt;
+  }
+  
+  /**
    * DELETE Verb
    * @return 200 Deleted
    */
