@@ -4,8 +4,9 @@ import elasticmedium.core.Env
 import elasticmedium.core.dao.es.EsService
 
 import java.net.URI
-import com.amazonaws.AmazonServiceException
+import java.io.ByteArrayInputStream
 
+import com.amazonaws.AmazonServiceException
 import com.amazonaws.DefaultRequest
 import com.amazonaws.http.HttpMethodName
 
@@ -55,5 +56,21 @@ class EsMappingServices extends EsService {
           .getAwsResponse()
           .\("content")
           .asInstanceOf[JObject];
+  }
+  
+  /**
+   * @param mapping The mapping properties of a type
+   * @see https://www.elastic.co/guide/en/elasticsearch/reference/5.1/properties.html
+   * @see https://www.elastic.co/guide/en/elasticsearch/reference/5.1/mapping-params.html
+   */
+  def PUT(indexName:String, typeName:String, mapping:String):Int = {
+    val req = new DefaultRequest[JObject]("es")
+        req.setHttpMethod(HttpMethodName.PUT)
+        req.setEndpoint(new URI("http://" + endpoint + "/" + indexName + "/_mapping/" + typeName))
+        req.setContent(new ByteArrayInputStream(mapping.getBytes));
+    return this.exec(req)
+          .getAwsResponse()
+          .\("status-code")
+          .asInstanceOf[JInt].values.toInt;
   }
 }

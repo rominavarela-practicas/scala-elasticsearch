@@ -16,6 +16,7 @@ object Routes extends RestHelper {
     case "api" :: "query" :: "_mapping" :: Nil JsonGet req => QueryController.getMapping()
     case "api" :: "query" :: indexName :: "_mapping" :: Nil JsonGet req => QueryController.getMapping(indexName)
     case "api" :: "query" :: indexName :: "_mapping" :: typeName :: Nil JsonGet req => QueryController.getMapping(indexName, tail(req))
+    case "api" :: "query" :: indexName :: "_mapping" :: typeName :: Nil JsonPost req => QueryController.createMapping(indexName, tail(req), body(req).asInstanceOf[JObject])
     case "api" :: "query" :: indexName :: typeName :: id :: Nil JsonGet req => QueryController.getDocument(indexName, typeName, tail(req))
     case "api" :: "query" :: indexName :: typeName :: id :: Nil JsonDelete req => QueryController.deleteDocument(indexName, typeName, tail(req))
     case "api" :: "query" :: indexName:: typeName :: "_search" :: Nil JsonPost req => QueryController.searchDocumentByTerms(indexName, typeName, body(req).asInstanceOf[JObject], Integer.parseInt(S.param("from").getOrElse("0")), Integer.parseInt(S.param("size").getOrElse("20")))

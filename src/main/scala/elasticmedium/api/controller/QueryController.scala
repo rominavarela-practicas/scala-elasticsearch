@@ -110,6 +110,33 @@ object QueryController {
     }
   }
   
+  private def parseMappingProperties(propsKeyVal:JObject):JObject = {
+    JObject (
+        propsKeyVal.values.toList.collect {
+          case (key:String, sValue:String) => new JField(key, ("type" -> sValue))
+          case (key:String, oValue:JObject) => new JField(key, ("properties" -> parseMappingProperties(oValue)) )
+          case (key:String, _) => new JField(key, ("properties" -> parseMappingProperties(propsKeyVal.\(key).asInstanceOf[JObject])) )
+        }
+    )
+  }
+  
+  def createMapping(indexName:String, typeName:String, propsKeyVal: JObject) = {
+    try {
+      val mapping = JObject(new JField("properties", parseMappingProperties(propsKeyVal)));
+      JsonResponse(
+          ("mappingContent" -> mapping) ~
+          ("response" -> esMappingServices.PUT(indexName, typeName, prettyRender(mapping)))
+      )
+    } catch {
+      case exc:Exception => {
+        if(BootDev.devMode) {
+          exc.printStackTrace();
+        }
+        new BadRequestResponse(exc.getMessage)
+      }
+    }
+  }
+  
   def getDocument(indexName:String, typeName:String, id:String) = {
     try {
       JsonResponse(

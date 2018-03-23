@@ -114,6 +114,39 @@
             "description": "The mapping of a type"
           }
         }
+      },
+      "post": {
+        "tags": [ "Mapping" ],
+        "summary": "Create the mapping of a type",
+        "produces": [ "application/json" ],
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+            	"type": "object",
+            	"properties": {}
+          	}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/query/{index}/{type}/{id}": {
@@ -202,8 +235,7 @@
             "required": true,
             "schema": {
             	"type": "object",
-            	"properties": {
-            	}
+            	"properties": {}
           	}
           },
           {
