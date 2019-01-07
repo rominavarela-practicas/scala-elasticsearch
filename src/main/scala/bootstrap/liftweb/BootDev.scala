@@ -16,8 +16,8 @@ object BootDev extends App with Loggable {
   
   override def main(args: Array[String]): Unit = {
       devMode = true
-      server = Some(new Server(9000))
       
+      server = Some(new Server(9002))
       val context = new WebAppContext()
       context.setServer(server.get)
       context.setWar("src/main/webapp")
